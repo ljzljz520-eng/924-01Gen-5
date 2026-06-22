@@ -14,6 +14,7 @@ import { useAppStore } from '@/store/appStore';
 import { SlideRenderer } from '@/components/slides/SlideRenderer';
 import { CommentPanel } from '@/components/comments/CommentPanel';
 import { ExportModal } from '@/components/export/ExportModal';
+import { ExportSlidesRenderer } from '@/components/export/ExportSlidesRenderer';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { getSampleDataSummary } from '@/data/templates';
@@ -124,15 +125,18 @@ const PreviewPage = () => {
             )}
           </Button>
           <div className="h-6 w-px bg-gray-200" />
-          <Button
-            variant="accent"
-            size="sm"
-            onClick={handleExport}
-            className="flex items-center gap-2"
-          >
-            <Download className="w-4 h-4" />
-            导出 PPT
-          </Button>
+          <div className="flex flex-col items-end">
+            <Button
+              variant="accent"
+              size="sm"
+              onClick={handleExport}
+              className="flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" />
+              导出 PDF
+            </Button>
+            <span className="text-xs text-gray-400 mt-1">PPT模板导出为PDF格式</span>
+          </div>
         </div>
       </div>
 
@@ -223,6 +227,7 @@ const PreviewPage = () => {
       </div>
 
       <ExportModal onExport={doExport} />
+      <ExportSlidesRenderer slides={slides} companyName={userConfig?.companyName} />
     </div>
   );
 };

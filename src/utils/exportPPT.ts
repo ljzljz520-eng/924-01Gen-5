@@ -9,18 +9,12 @@ export const exportToPDF = async (slides: PPTSlide[], companyName?: string): Pro
 
   for (let i = 0; i < slides.length; i++) {
     const slide = slides[i];
-    const slideElement = document.getElementById(`slide-${slide.id}`);
+    const slideElement = document.getElementById(`export-slide-${slide.id}`)?.firstElementChild as HTMLElement;
 
     if (!slideElement) {
       console.warn(`Slide element not found for slide ${slide.id}`);
       continue;
     }
-
-    const originalStyle = slideElement.style.cssText;
-    slideElement.style.transform = 'none';
-    slideElement.style.margin = '0';
-    slideElement.style.position = 'relative';
-    slideElement.style.boxShadow = 'none';
 
     try {
       const canvas = await html2canvas(slideElement, {
@@ -44,8 +38,6 @@ export const exportToPDF = async (slides: PPTSlide[], companyName?: string): Pro
       pdf.addImage(imgData, 'PNG', 0, yOffset, imgWidth, imgHeight);
     } catch (error) {
       console.error(`Error capturing slide ${i + 1}:`, error);
-    } finally {
-      slideElement.style.cssText = originalStyle;
     }
   }
 
